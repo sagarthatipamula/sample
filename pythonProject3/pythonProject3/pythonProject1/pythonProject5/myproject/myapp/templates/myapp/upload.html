@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, button {
+            padding: 8px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Upload File</h2>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="fileUpload">Select File:</label>
+        <input type="file" name="file" id="fileUpload" accept=".xlsx">
+        <br>
+        <label for="fileName">Folder Name:</label>
+        <input type="text" name="fileName" id="fileName">
+        <br>
+        <label for="AttachmentName">File Name:</label>
+        <input type="text" name="AttachmentName" id="AttachmentName">
+        <br>
+        <label for="AttachmentBytes">File Bytes:</label>
+        <textarea name="AttachmentBytes" id="AttachmentBytes" rows="4"></textarea>
+        <br>
+        <button type="button" onclick="uploadFile()">Upload</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function uploadFile() {
+            var formData = new FormData($('#uploadForm')[0]);
+
+            $.ajax({
+                url: '/myapp/upload/',
+                method: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    console.log('File uploaded successfully:', response.status);
+                },
+                error: function(error) {
+                    console.error('File upload failed:', error.responseJSON.message);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
